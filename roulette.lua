@@ -1,3 +1,6 @@
+-- Include the Command module
+require("scripts/Command")
+
 local rouletteWheel = {}
 
 -- Original Roulette Wheel number generation
