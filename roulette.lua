@@ -1,45 +1,21 @@
--- Include the Command module
-require("scripts/Command")
+-- Roulette Wheel Number Modifier Script for Growtopia Private Server
 
-local rouletteWheel = {}
-
--- Original Roulette Wheel number generation
-rouletteWheel.originalGenerateNumber = rouletteWheel.generateNumber
-
--- Modified Roulette Wheel number generation
-rouletteWheel.generateNumber = function(self)
-    local number = self:originalGenerateNumber()
-    return number
+-- Fungsi untuk memodifikasi nomor pada Roulette Wheel
+function modifyRouletteNumber(wheelID, newNumber)
+    -- Cari Roulette Wheel berdasarkan ID (gunakan API yang sesuai)
+    local wheel = FindObjectByID(wheelID)  -- Ganti dengan fungsi yang sesuai dari API private server
+    
+    if wheel and wheel:GetType() == "RouletteWheel" then
+        -- Modifikasi nomor pada Roulette Wheel
+        wheel:SetNumber(newNumber)  -- Ganti dengan metode yang sesuai dari API private server
+        print("Nomor pada Roulette Wheel dengan ID " .. wheelID .. " telah diubah menjadi " .. newNumber)
+    else
+        print("Roulette Wheel dengan ID " .. wheelID .. " tidak ditemukan atau bukan tipe RouletteWheel")
+    end
 end
 
--- Define the command variable
-local command = nil
+-- Contoh penggunaan
+local wheelID = 12345  -- Ganti dengan ID Roulette Wheel yang ingin dimodifikasi
+local newNumber = 7    -- Ganti dengan nomor baru yang diinginkan
 
--- Command handler for /spin <number>
-local function spinCommand(player, cmd, target, number)
-    if not number then
-        player:send("Usage: /spin <number>")
-        return
-    end
-
-    local roulette = rouletteWheel.getRoulette(player:getWorldId())
-    if not roulette then
-        player:send("Error: Roulette not found.")
-        return
-    end
-
-    local rouletteNumber = tonumber(number)
-    if not rouletteNumber or rouletteNumber < 0 or rouletteNumber > 36 then
-        player:send("Error: Invalid number. Please enter a number between 0 and 36.")
-        return
-    end
-
-    roulette:setNumber(rouletteNumber)
-    player:send("Roulette wheel number set to " .. number)
-end
-
--- Register the command
-command = Command.create("spin")
-command:setHandler(spinCommand)
-command:setDescription("Modifies the roulette wheel number.")
-Command.register(command)
+modifyRouletteNumber(wheelID, newNumber)
