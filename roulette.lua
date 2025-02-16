@@ -9,6 +9,9 @@ rouletteWheel.generateNumber = function(self)
     return number
 end
 
+-- Define the command variable
+local command = nil
+
 -- Command handler for /spin <number>
 local function spinCommand(player, cmd, target, number)
     if not number then
@@ -33,7 +36,7 @@ local function spinCommand(player, cmd, target, number)
 end
 
 -- Register the command
-local command = Command.create("spin")
+command = Command.create("spin")
 command:setHandler(spinCommand)
 command:setDescription("Modifies the roulette wheel number.")
 Command.register(command)
